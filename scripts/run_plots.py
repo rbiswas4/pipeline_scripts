@@ -17,12 +17,9 @@ import sncosmo
 from analyzeSN import LightCurve, ResChar
 from lsst.sims.catUtils.supernovae import SNObject
 
-minion_params = pd.read_hdf('minion_1447_static_added.hdf')
-sandwich_params = pd.read_hdf('sandwich_1447_static_added.hdf')
+minion_params = pd.read_hdf('ddf_params.hdf')
 minion_params.sort_values(by='t0', inplace=True)
-sandwich_params.sort_values(by='t0', inplace=True)
-minion = pd.read_hdf('sn_minion_1447_static_lc.hdf', '0')
-sandwich = pd.read_hdf('sn_sandwich_1447_lc.hdf', '0')
+minion = pd.read_hdf('ddf_lcs.hdf', '0')
 
 def paramDict(snid, paramdf):
     cols = ['t0', 'x0', 'x1', 'c','z'] 
@@ -90,7 +87,7 @@ def writevals(snid, fh):
     
 def runGroup(i): 
     fname = 'files/test_{}.csv'.format(i)
-    arr = splitarrs[i] 
+    arr = splitarrs[i]
     print('starting job {0} with {1} SN'.format(i, len(arr)))
     if os.path.exists(fname):
         with open(fname, 'a') as fh:
@@ -106,9 +103,9 @@ splitarrs = np.array_split(snidvals, numvals)
 #splitarrs.append(snidvals[:11])
 #print (splitarrs[0], snidvals[:11])
 #runGroup(0)
-x = inferParams(164854005, snmodel, paramsDF=sandwich_params,
-                lcsDF=sandwich, infer_method=sncosmo.fit_lc,
-                minsnr=0.)
+#x = inferParams(164854005, snmodel, paramsDF=sandwich_params,
+#                lcsDF=sandwich, infer_method=sncosmo.fit_lc,
+#                minsnr=0.)
 #print(x[0], x[1], x[2], x[3], x[4])
 # with open('testing.csv', 'w') as fh:
 #    writevals(165504067, fh)
